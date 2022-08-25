@@ -84,6 +84,11 @@ li {
     font-family: 'Roboto', sans-serif;
 }
 
+.avatar{
+    border-radius: 50%;
+    width:40px;
+}
+
 .nomsg {
     text-align: center;
     color: #ccc;

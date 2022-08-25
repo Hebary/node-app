@@ -35,8 +35,8 @@ function renderMsgs(data) {
                         ${data.map( item => `
                         <ul>
                             <li>
-                                <div class="author">
-                                    <img src="./chat.svg" alt="chat svg"/>
+                            <div class="author">
+                                <img src=${item.autor.avatar} class="avatar" alt="chat svg"/>
                                     <strong>${item.autor.id}</strong>
                                     <p class="date">${ item.timestamps}</p>
                                 </div>
