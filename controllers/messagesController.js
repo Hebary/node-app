@@ -5,7 +5,7 @@ export function buildMessage(email, msg){
         return{
             autor:{
             id: email,
-            nomber:faker.name.fullName(),
+            nombre:faker.name.fullName(),
             edad: faker.datatype.number({ max: 100 }),
             avatar: faker.internet.avatar(),
             alias: faker.internet.userName(),

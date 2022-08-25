@@ -43,20 +43,6 @@ export const Messages = new Container('messages.json')
 
 
 
-const { schema, normalize, denormalize } =  pkg;
-
-
-function print(obj){
-    console.log(util.inspect(obj, false, 12, true));
-}
-
-const autores = new schema.Entity('autores');
-
-const organigrama = new schema.Entity('autores',{
-    autores:[autores]
-})
-
-const grupo = new schema.Entity('autores', {autores: [organigrama]})
 
 
 //Routers
@@ -71,16 +57,32 @@ const _products = buildProduct();
 let messages = [];
 const handleMsg = async () => {
     await Messages.getAll().then(data =>
-        data.forEach(msg => messages.push(msg)))
+        data.messages.forEach(msg => messages.push(msg)))
 }
 handleMsg();
 
+// NORMALIZR ······························
+const { schema, normalize, denormalize } =  pkg;
+
+
+function print(obj){
+    console.log(util.inspect(obj, false, 12, true));
+}
+
+const autores = new schema.Entity('autores');
+
+const organigrama = new schema.Entity('autores',{
+    autores:[autores]
+})
+
+const msgSchema = new schema.Entity('autores', {autores: [organigrama]})
+
 
 const data = JSON.parse(fs.readFileSync('./messages.json'))
-const normalizeMsg = normalize(data, grupo);
+const normalizeMsg = normalize(data, msgSchema);
 
 print(normalizeMsg)
-const desnormalizeMsg = denormalize( normalizeMsg.result, grupo , normalizeMsg.entities)
+const desnormalizeMsg = denormalize( normalizeMsg.result, msgSchema , normalizeMsg.entities)
 console.log("###########Desnormalizado######")
 print(desnormalizeMsg)
 
@@ -94,6 +96,8 @@ console.log(long0+ " bytes")
 console.log(long1+ " bytes")
 
 console.log("porcentaje de compresión: ", porcentaje.toFixed(2)+' %')
+
+// NORMALIZR ·········································
 
 io.on('connection', socket => {
     console.log('Nueva conexión');
