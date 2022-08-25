@@ -1,3 +1,4 @@
+import fs from 'fs';
 
 import express from 'express';
 import http from 'http';
@@ -11,29 +12,9 @@ import { buildMessage } from './controllers/messagesController.js'
 
 import { Container } from './DAO/container.js'
 
-import pkg from 'normalizr';
-const { schema, normalize, denormalize } =  pkg;
-
-import fs from 'fs';
-
-const mensajes = new schema.Entity('mensajes');
-
-const organigrama = new schema.Entity('organigrama',{
-    todo: mensajes
-
-})
-
-const grupo = new schema.Entity('grupo', {
-    mensajes:[organigrama]
-})
-
-
 import util from 'util';
 
-function print(obj){
-    console.log(util.inspect(obj, false, 12, true));
-}
-
+import pkg from 'normalizr';
 
 
 
@@ -51,7 +32,6 @@ const server = httpServer.listen(PORT, () => {
 
 server.on('error', err => console.log(err));
 
-
 app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({
@@ -60,6 +40,25 @@ app.use(express.urlencoded({
 
 
 export const Messages = new Container('messages.json')
+
+
+
+const { schema, normalize, denormalize } =  pkg;
+
+
+function print(obj){
+    console.log(util.inspect(obj, false, 12, true));
+}
+
+const item = new schema.Entity('item');
+
+const organigrama = new schema.Entity('mensajes',{
+    item:[item],
+})
+
+const grupo = new schema.Entity('mensajes', {mensajes: organigrama})
+
+
 //Routers
 
 
@@ -95,5 +94,17 @@ const data = JSON.parse(fs.readFileSync('./messages.json'))
 const normalizeMsg = normalize(data, grupo);
 
 print(normalizeMsg)
-const desnormalizeMsg = denormalize(normalizeMsg.result, grupo , normalizeMsg.entities)
+const desnormalizeMsg = denormalize( normalizeMsg.result, grupo , normalizeMsg.entities)
+console.log("###########Desnormalizado######")
 print(desnormalizeMsg)
+
+const long0 = JSON.stringify(data).length
+
+const long1 = JSON.stringify(normalizeMsg).length
+
+const porcentaje = (long1 * 100) / long0;
+
+console.log(long0+ " bytes")
+console.log(long1+ " bytes")
+
+console.log("porcentaje de compresión: ", porcentaje.toFixed(2)+' %')
