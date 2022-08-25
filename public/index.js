@@ -31,7 +31,8 @@ form.addEventListener('submit', addMessage);
 function renderMsgs(data) {
 
     const root = document.querySelector('#root');
-    const html = `<div class="container">
+    const html = `  <h4>Porcentaje de compresión: ${porcentaje}</h4>
+                    <div class="container">
                         ${data.map( item => `
                         <ul>
                             <li>
@@ -66,6 +67,13 @@ function renderProducts(data){
     data.length > 0 ? root.innerHTML = html : null
 }
 
+let porcentaje ;
+function handlePercents(data){
+    porcentaje  = data.toFixed(2) + " %"
+}
 
 socket.on('messages', data => renderMsgs(data));
 socket.on('products', data => renderProducts(data));
+socket.on('porcentaje', data => {
+    data && handlePercents(data);
+})

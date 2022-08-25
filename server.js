@@ -50,13 +50,13 @@ function print(obj){
     console.log(util.inspect(obj, false, 12, true));
 }
 
-const item = new schema.Entity('item');
+const autores = new schema.Entity('autores');
 
-const organigrama = new schema.Entity('mensajes',{
-    item:[item],
+const organigrama = new schema.Entity('autores',{
+    autores:[autores]
 })
 
-const grupo = new schema.Entity('mensajes', {mensajes: organigrama})
+const grupo = new schema.Entity('autores', {autores: [organigrama]})
 
 
 //Routers
@@ -74,20 +74,6 @@ const handleMsg = async () => {
         data.forEach(msg => messages.push(msg)))
 }
 handleMsg();
-
-
-io.on('connection', socket => {
-    console.log('Nueva conexión');
-
-    socket.emit('products', _products)
-    socket.emit('messages', messages)
-
-    socket.on('msg', async socket => {
-        const {email, msg} = socket;
-        const MSG = buildMessage(email, msg)
-       await Messages.save(MSG)
-    })
-})
 
 
 const data = JSON.parse(fs.readFileSync('./messages.json'))
@@ -108,3 +94,19 @@ console.log(long0+ " bytes")
 console.log(long1+ " bytes")
 
 console.log("porcentaje de compresión: ", porcentaje.toFixed(2)+' %')
+
+io.on('connection', socket => {
+    console.log('Nueva conexión');
+
+    socket.emit('products', _products)
+    socket.emit('messages', messages)
+
+    socket.on('msg', async socket => {
+        const {email, msg} = socket;
+        const MSG = buildMessage(email, msg)
+       await Messages.save(MSG)
+    })
+
+    socket.emit('porcentaje',porcentaje)
+})
+
