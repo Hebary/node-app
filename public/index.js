@@ -60,7 +60,7 @@ function renderProducts(data){
     const html =` ${data.map(product=>{
                     return  (`  <tr>
                                     <td>${product.name}</td>
-                                    <td>${product.price}</td>
+                                    <td>$ ${product.price}</td>
                                     <td><img src=${product.thumbnail} class="product-img" alt="thumbnail"/></td>
                                 </tr>`
                             )}).join(' ')}`    

@@ -3,18 +3,16 @@ import {
 } from '@faker-js/faker'
 
 const getRandom = (param) => {
-    if(param === 'name'){
-        return names[Math.floor(Math.random()*names.length)]
 
-    }else if(param === "thumb"){
+    if(param === "thumb"){
         return thumbnails[Math.floor(Math.random() * thumbnails.length)]
     }
-    else {
-        return prices[Math.floor(Math.random() * prices.length)]
+    else{
+        return console.log("hola buen día");
     }
+   
 }
 
-const names = ["Notebook_1", "Notebook_2", "Notebook_3", "Notebook_4", "Notebook_5"];
 
 const thumbnails = [
     "https://http2.mlstatic.com/D_NQ_NP_913944-MLA44973386650_022021-V.webp",
@@ -24,15 +22,14 @@ const thumbnails = [
     "https://http2.mlstatic.com/D_NQ_NP_691014-MLA47861577646_102021-V.webp",
 ]
 
-const prices = [
-    990, 1500, 2000, 3000, 1700
-]
+
 
 const createCombinations = id => {
     return{
         id,
         name:faker.commerce.productName(),
-        thumbnail:getRandom("thumb"),
+        //faker no hacía lo que le pedía con la img
+        thumbnail: getRandom("thumb"),
         price:faker.datatype.float({ max: 1700 })
     }
 }
@@ -40,7 +37,7 @@ const createCombinations = id => {
 function buildProduct(){
 
     const products = [];
-    for(let i =0; i < prices.length; i++){
+    for(let i = 0; i < 5; i++){
         products.push(createCombinations(getId()))
     }   
     return products;
