@@ -31,7 +31,7 @@ const prices = [
 const createCombinations = id => {
     return{
         id,
-        name:getRandom("name"),
+        name:faker.commerce.productName(),
         thumbnail:getRandom("thumb"),
         price:faker.datatype.float({ max: 1700 })
     }
