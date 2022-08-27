@@ -79,11 +79,11 @@ const msgSchema = new schema.Entity('autores', {autores: [organigrama]})
 
 
 const data = JSON.parse(fs.readFileSync('./messages.json'))
-const normalizeMsg = normalize(data, msgSchema);
+const normalizeMsg = normalize(data.messages, msgSchema);
 
 print(normalizeMsg)
-const desnormalizeMsg = denormalize( normalizeMsg.result, msgSchema , normalizeMsg.entities)
-console.log("###########Desnormalizado######")
+const desnormalizeMsg = denormalize( normalizeMsg, msgSchema , normalizeMsg.entities)
+console.log("Desnormalizado")
 print(desnormalizeMsg)
 
 const long0 = JSON.stringify(data).length

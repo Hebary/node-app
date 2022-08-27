@@ -33,7 +33,7 @@ const createCombinations = id => {
         id,
         name:getRandom("name"),
         thumbnail:getRandom("thumb"),
-        price:getRandom("price")
+        price:faker.datatype.float({ max: 1700 })
     }
 }
 
